@@ -1,3 +1,11 @@
+// This interface has a shitty name. But its essentialy what we use to check that an object has certain fields before passing them to a function
+interface Mappable {
+    location: {
+        lat: number
+        lng: number
+    }
+}
+
 export class CustomMap {
     // Properties inside of classes are public modifiers by default, If we dont want other engineers
     // To be able to access those properties directly, we can set the modifier to private
@@ -13,4 +21,15 @@ export class CustomMap {
             }
         })
     }
+
+    addMarker(mappable: Mappable): void {
+        new google.maps.Marker({
+            map: this.googleMap,
+            position: {
+                lat: mappable.location.lat,
+                lng: mappable.location.lng
+            }
+        })
+    }
+
 }
