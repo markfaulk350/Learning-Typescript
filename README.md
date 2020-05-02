@@ -2,8 +2,50 @@
 Typescript taught by Stephen Grider on Udemy
 
 ### Why use Typescript?
-- **Typescript simplifies javscript making it easier to read and debug.**
-- **Typescript helps us catch errors in the development stage before ever having to run code.**
+The primary benefits of using TypeScript are to catch more errors before they go into production and make it easier to work with your code base.
+
+TypeScript is not a different language. It’s a flexible superset of JavaScript with ways to describe optional data types. All “standard” and valid JavaScript is also valid TypeScript. You can dial in as much or little as you desire.
+
+As soon as you add the TypeScript compiler or a TypeScript plugin to your favorite code editor, there are immediate safety and productivity benefits. TypeScript can alert you to misspelled functions and properties, detect passing the wrong types of arguments or the wrong number of arguments to functions, and provide smarter autocomplete suggestions.
+
+When working with TypeScript and type definition files, you dont always have to rely on npm documentation. You can look through the type definition files and view all the properties assosiated with the npm package. 
+
+#### Compiling Typescript to Javascript
+To compile a single file
+```bash
+tsc index.ts
+```
+
+To generate a tsconfig.json file for an entire project
+```bash
+tsc --init
+```
+
+To compile an entire project with a tsconfig.json already set up
+```bash
+tsc
+```
+
+Hot reload and compile on save (Watch)
+```bash
+tsc -w
+```
+
+To compile a project
+1. Create a src folder (TypeScript)
+2. Create a dist folder (JavaScript)
+3. Generate a tsconfig.json file (Used to tell the compiler how to behave)
+4. Change outDir and RootDir inside tsconfig.json
+5. Then type tsc to compile
+
+```json
+{
+    // tsconfig.json
+
+    "outDir": "./dist",     // Compiled JavaScript
+    "rootDir": "./src",     // TypeScript
+}
+```
 
 ## Definitions
 - Type annotations: Code we add to tell Typscript what type of value a variable should be
@@ -18,6 +60,31 @@ Use Type Annotations when...
 Use Type Inference when...
 - When ever possible to simplify code
 - When we declare and initialize a variable on the same line
+
+# Type Definition files (Need to be downloaded in order for TypeScript to do its job)
+```bash
+npm install @types/package-name
+```
+
+```bash
+npm install @types/googlemaps
+```
+
+# Exporting & Importing
+In typescript it's best practice to use the export keyword. Then import with curly brackets { xyz }.
+Export allows us to export as many values as we like from a single file.
+```typescript
+export class User {
+    name: string
+}
+
+export class Car {
+    year: number
+}
+```
+```typescript
+import { User, Car } from './xyz'
+```
 
 # Annotations (We explicitly tell Typescript what type a variable needs to be)
 #### Everything to the left of the = sign is the type annotation
@@ -57,6 +124,8 @@ let now: Date = new Date()
 let colors: string[] = ['red', 'green', 'blue']
 
 let myNumbers: number[] = [1,2,3]
+
+let myDates: (Date | string)[] = [new Date(), '04-01-2020']
 ```
 
 #### Classes
@@ -162,4 +231,26 @@ const profile = {
 }
 
 const { age, name }: {age: number, name: string} = profile
+```
+
+# Tuple (An array of values, much like an object but without the keys)
+```typescript
+// Object
+let person = {
+    name: 'Mark',
+    age: 21,
+    married: false
+}
+
+// Array
+let person = ['Mark', 21, false]
+
+// The type annotation turns the array into a Tuple
+// Tuple - Fixed order, not self-labeling. The order is important!
+let person: [string, number, boolean] = ['Mark', 21, false]
+
+// Or we can create a type alias then use that type alias to create a Tuple
+type Person = [string, number, boolean]  // Type Alias
+
+let person: Person = ['Mark', 21, false]
 ```
