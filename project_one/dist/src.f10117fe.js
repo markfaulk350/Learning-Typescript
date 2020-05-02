@@ -85122,6 +85122,10 @@ function () {
     };
   }
 
+  User.prototype.markerContent = function () {
+    return "<h1>Username: " + this.name + "</h1>";
+  };
+
   return User;
 }();
 
@@ -85153,44 +85157,44 @@ function () {
     };
   }
 
+  Company.prototype.markerContent = function () {
+    return "Company Name: " + this.companyName;
+  };
+
   return Company;
 }();
 
 exports.Company = Company;
-},{"faker":"node_modules/faker/index.js"}],"src/CustomMap.ts":[function(require,module,exports) {
+},{"faker":"node_modules/faker/index.js"}],"src/LeafletMap.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var CustomMap =
+var LeafletMap =
 /** @class */
 function () {
-  function CustomMap(divID) {
-    this.googleMap = new google.maps.Map(document.getElementById(divID), {
-      zoom: 3,
-      center: {
-        lat: 0,
-        lng: 0
-      }
+  function LeafletMap(divID) {
+    this.baseLayer = new L.TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'I am pretty sure I can write whatever I want here.'
     });
+    this.leafletMap = new L.Map(document.getElementById(divID), {
+      center: new L.LatLng(40.731253, -73.996139),
+      zoom: 12
+    });
+    this.leafletMap.addLayer(this.baseLayer);
   }
 
-  CustomMap.prototype.addMarker = function (mappable) {
-    new google.maps.Marker({
-      map: this.googleMap,
-      position: {
-        lat: mappable.location.lat,
-        lng: mappable.location.lng
-      }
-    });
+  LeafletMap.prototype.addMarker = function (mappable) {
+    var marker = new L.Marker([mappable.location.lat, mappable.location.lng], {});
+    marker.addTo(this.leafletMap);
   };
 
-  return CustomMap;
+  return LeafletMap;
 }();
 
-exports.CustomMap = CustomMap;
+exports.LeafletMap = LeafletMap;
 },{}],"src/index.ts":[function(require,module,exports) {
 "use strict";
 
@@ -85202,14 +85206,15 @@ var User_1 = require("./User");
 
 var Company_1 = require("./Company");
 
-var CustomMap_1 = require("./CustomMap");
+var LeafletMap_1 = require("./LeafletMap");
 
 var user = new User_1.User();
-var company = new Company_1.Company();
-var customMap = new CustomMap_1.CustomMap('map');
-customMap.addMarker(user);
-customMap.addMarker(company);
-},{"./User":"src/User.ts","./Company":"src/Company.ts","./CustomMap":"src/CustomMap.ts"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var company = new Company_1.Company(); // const customMap = new CustomMap('map')
+
+var leafletMap = new LeafletMap_1.LeafletMap('map');
+leafletMap.addMarker(user); // customMap.addMarker(user)
+// customMap.addMarker(company)
+},{"./User":"src/User.ts","./Company":"src/Company.ts","./LeafletMap":"src/LeafletMap.ts"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -85237,7 +85242,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62396" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49517" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
