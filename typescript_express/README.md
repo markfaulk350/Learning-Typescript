@@ -31,11 +31,30 @@ npm i nodemon concurrently
     "start":"concurrently npm:start:*"
   },
 ```
+
 6. Install Express, Body-Parser, Cookie-Sessions
 ```bash
 npm i express body-parser cookie-session
 ```
+
 7. Install type definition files
 ```bash
 npm i @types/express @types/body-parser @types/cookie-session
+```
+
+# Traversy Setup
+
+1. You can install some npm packages as development dependencies
+```bash
+npm i -D typescript ts-node nodemon @types/express @types/node
+```
+2. ```json
+    // package.json
+
+  "main": "index.js",
+  "scripts": {
+    "start":"node dist/index.js",
+    "dev":"nodemon src/index.ts",
+    "build":"tsc -p ."
+  },
 ```

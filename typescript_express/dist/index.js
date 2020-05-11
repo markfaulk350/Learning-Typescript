@@ -3,11 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// 3rd Party Imports
 var express_1 = __importDefault(require("express"));
+var body_parser_1 = __importDefault(require("body-parser"));
+var cookie_session_1 = __importDefault(require("cookie-session"));
+// Personal Imports
+var loginRoutes_1 = require("./routes/loginRoutes");
 var app = express_1.default();
-app.get('/', function (req, res) {
-    res.send("\n    <h1>Home Page</h1>\n    ");
-});
+// 3rd Party Middleware
+app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(cookie_session_1.default({ keys: ['asdfg'] }));
+// Personal Middleware
+app.use(loginRoutes_1.router);
 app.listen(3000, function () {
     console.log('Listening on http://localhost:3000');
 });

@@ -1,12 +1,20 @@
-import express, { Request, Response } from 'express'
+// 3rd Party Imports
+import express, { Application, Request, Response } from 'express'
+import bodyParser from 'body-parser'
+import cookieSession from 'cookie-session'
 
-const app = express()
+// Personal Imports
+import { router } from './routes/loginRoutes'
 
-app.get('/', (req: Request, res: Response) => {
-    res.send(`
-    <h1>Home Page</h1>
-    `)
-})
+const app: Application = express()
+
+// 3rd Party Middleware
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieSession({ keys: ['asdfg'] }))
+
+// Personal Middleware
+app.use(router)
+
 
 app.listen(3000, () => {
     console.log('Listening on http://localhost:3000')
